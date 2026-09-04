@@ -2,8 +2,19 @@ import { useEffect, useRef, useState } from "react";
 import { TiLocationArrow } from "react-icons/ti";
 import Button from "./Button";
 import OreNexusLogo from "./OreNexusLogo";
-import { useWindowScroll } from "react-use";
 import gsap from "gsap";
+
+const useWindowScroll = () => {
+  const [scroll, setScroll] = useState({ y: typeof window !== "undefined" ? window.scrollY : 0 });
+  useEffect(() => {
+    const handleScroll = () => {
+      setScroll({ y: window.scrollY });
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+  return scroll;
+};
 
 const navItems = [
   { name: "Overview", href: "#hero" },
